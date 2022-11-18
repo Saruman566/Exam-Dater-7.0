@@ -3,9 +3,9 @@ import tkinter as tk
 from tkinter import messagebox
 from database import DataBase
 
-NEW_LIST = []
-WINDOW_COUNTER = 0
+#WINDOW_COUNTER = 0
 CANVAS_LIST = []
+BUTTON_LIST = []
 
 
 class ListMaker:
@@ -36,7 +36,7 @@ class ListMaker:
 
         self.e_auditor = tk.StringVar()
 
-        self.ent_auditor = tk.Entry(width=7, background="#FAEBD7", font="Georgia 20", fg="#CD853F",
+        self.ent_auditor = tk.Entry(width=7, background="#FAEBD7", font="Georgia 20", fg="#CD853F", state="disabled",
                                     textvariable=self.e_auditor)
         self.ent_auditor.grid(row=0, column=0, pady=100, padx=20, sticky="n,w")
 
@@ -89,10 +89,25 @@ class ListMaker:
         self.delete_button.grid(row=0, column=0, pady=150, padx=440, sticky="n,w")
 
         self.drop_down = tk.Button(width=10, heigh=2, text="Auditors",
-                                       font="Georgia 8 bold", fg="#FF3030", command=self.drop_down)
+                                   font="Georgia 8 bold", fg="#FF3030", command=self.drop_down)
         self.drop_down.grid(row=0, column=0, pady=150, padx=40, sticky="n,w")
 
         self.dropdown_frame = ()
+        self.menu_button_1 = ()
+        self.menu_button_2 = ()
+        self.menu_button_3 = ()
+        self.menu_button_4 = ()
+        self.menu_button_5 = ()
+        self.menu_button_6 = ()
+        self.menu_button_7 = ()
+        self.menu_button_8 = ()
+        self.menu_button_9 = ()
+        self.menu_button_10 = ()
+        self.menu_button_11 = ()
+        self.menu_button_12 = ()
+        self.menu_button_13 = ()
+        self.menu_button_14 = ()
+
         self.canvas()
 
     def canvas(self):
@@ -205,18 +220,82 @@ class ListMaker:
 
     def clear_var(self):
 
+        self.ent_auditor.config(state="normal")
         self.ent_auditor.delete(0, "end")
+        self.ent_auditor.config(state="disabled")
+
         self.ent_theme.delete(0, "end")
         self.ent_date.delete(0, "end")
-        self.ent_auditor.focus_set()
+
 
     def drop_down(self):
 
-        self.dropdown_frame = tk.Canvas(width=200, background="grey")
-        self.dropdown_frame.grid(row=0, column=0, pady=190, padx=20, sticky="n,w")
-        autors = DataBase().check_all_authors()
+        global BUTTON_LIST
 
-        print(autors)
+        self.dropdown_frame = tk.Canvas(width=200)
+        self.dropdown_frame.grid(row=0, column=0, pady=50, padx=157, sticky="n,w")
+
+        self.menu_button_1 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_2 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_3 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_4 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_5 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_6 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_7 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_8 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_9 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_10 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_11 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_12 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_13 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+        self.menu_button_14 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+
+        BUTTON_LIST = [self.menu_button_1, self.menu_button_2, self.menu_button_3, self.menu_button_4,
+                       self.menu_button_5, self.menu_button_6, self.menu_button_7, self.menu_button_8,
+                       self.menu_button_9, self.menu_button_10, self.menu_button_11, self.menu_button_12,
+                       self.menu_button_13, self.menu_button_14]
+
+        authors = DataBase().check_all_authors()
+
+        button_counter = 0
+
+        for name in authors:
+
+            BUTTON_LIST[button_counter].configure(text=name, command=lambda t=name: self.menu_buttons(t))
+            BUTTON_LIST[button_counter].grid(column=0, row=button_counter)
+
+            button_counter += 1
+
+    def menu_buttons(self, t):
+
+        self.ent_auditor.config(state="normal")
+        self.ent_auditor.delete(0, "end")
+        self.ent_auditor.insert(0, t)
+        self.ent_auditor.config(state="disabled")
+        x = self.window.winfo_children()
+        x[-1].destroy()
+        self.window.update()
+
+        #self.dropdown_frame.destroy()
+        #print(NEW_LIST)
+        #names = DataBase().check_all_authors()
+        #print(names[button_counter])
+
+
 
 
 '''

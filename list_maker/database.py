@@ -112,7 +112,7 @@ class DataBase:
         else:
             for name in authors:
 
-                self.cursor.execute(f"INSERT INTO AuthorList ('author') VALUES('{name}')")
+                self.cursor.execute(f"INSERT INTO AuthorList ('author') VALUES({name})")
                 self.db.commit()
 
     def check_all_authors(self):
@@ -123,6 +123,6 @@ class DataBase:
             self.create_author_table()
             self.author_new_entry()
 
-        all_authors = self.cursor.fetchall()
+        all_authors = [name[0] for name in self.cursor.fetchall()]
 
         return all_authors
