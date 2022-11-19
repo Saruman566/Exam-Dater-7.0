@@ -1,9 +1,10 @@
 # @Daniel Zenglein - "Fiae202207"
 import tkinter as tk
 from tkinter import messagebox
+from tkcalendar import Calendar
 from database import DataBase
+import datetime
 
-#WINDOW_COUNTER = 0
 CANVAS_LIST = []
 BUTTON_LIST = []
 
@@ -22,47 +23,47 @@ class ListMaker:
         # Images
 
         self.icon = tk.PhotoImage(file="trashcan.png")
-
+        self.icon2 = tk.PhotoImage(file="save.png")
         # Labels and Entry's
 
-        self.background = tk.Canvas(width=500, heigh=500, background="#FAEBD7")
+        self.background = tk.Canvas(width=500,  background="#FAEBD7")
         self.background.grid(row=0, column=0, sticky="n,w")
 
         self.main_label = tk.Label(text="EXAM - DATER", font="Georgia 30 bold", fg="#8B8378", bg="#FAEBD7")
         self.main_label.grid(row=0, column=0, pady=0, padx=85, sticky="n,w")
 
         self.first_label = tk.Label(text="Auditor", background="#FAEBD7", font="Georgia 20")
-        self.first_label.grid(row=0, column=0, pady=55, padx=33, sticky="n,w")
+        self.first_label.grid(row=0, column=0, pady=55, padx=20, sticky="n,w")
 
         self.e_auditor = tk.StringVar()
 
-        self.ent_auditor = tk.Entry(width=7, background="#FAEBD7", font="Georgia 20", fg="#CD853F", state="disabled",
+        self.ent_auditor = tk.Entry(width=11, background="#FAEBD7", font="Georgia 20", fg="#CD853F", state="disabled",
                                     textvariable=self.e_auditor)
-        self.ent_auditor.grid(row=0, column=0, pady=100, padx=20, sticky="n,w")
+        self.ent_auditor.grid(row=0, column=0, pady=55, padx=136, sticky="n,w")
 
         self.second_label = tk.Label(text="Theme", background="#FAEBD7", font="Georgia 20")
-        self.second_label.grid(row=0, column=0, pady=55, padx=220, sticky="n,w")
+        self.second_label.grid(row=0, column=0, pady=100, padx=25, sticky="n,w")
 
         self.e_theme = tk.StringVar()
 
         self.ent_theme = tk.Entry(width=11, background="#FAEBD7", font="Georgia 20", fg="#CD853F",
                                   textvariable=self.e_theme)
-        self.ent_theme.grid(row=0, column=0, pady=100, padx=166, sticky="n,w")
+        self.ent_theme.grid(row=0, column=0, pady=100, padx=136, sticky="n,w")
 
         self.date_label = tk.Label(text="Date", background="#FAEBD7", font="Georgia 20")
-        self.date_label.grid(row=0, column=0, pady=55, padx=400, sticky="n,w")
+        self.date_label.grid(row=0, column=0, pady=145, padx=40, sticky="n,w")
 
         self.e_date = tk.StringVar()
 
-        self.ent_date = tk.Entry(width=7, background="#FAEBD7", font="Helvetica 18", fg="#CD853F",
+        self.ent_date = tk.Entry(width=7, background="#FAEBD7", font="Helvetica 18", fg="#CD853F", state="disabled",
                                  textvariable=self.e_date)
-        self.ent_date.grid(row=0, column=0, pady=100, padx=382, ipadx=1, ipady=2, sticky="n,w")
+        self.ent_date.grid(row=0, column=0, pady=145, padx=136, ipadx=1, ipady=2, sticky="n,w")
 
         self.e_delete = tk.StringVar()
 
         self.ent_delete = tk.Entry(width=1, background="#FAEBD7", font="Helvetica 18", fg="#CD853F",
                                    textvariable=self.e_delete)
-        self.ent_delete.grid(row=0, column=0, pady=153, padx=414, ipadx=2, ipady=2, sticky="n,w")
+        #self.ent_delete.grid(row=0, column=0, pady=153, padx=414, ipadx=2, ipady=2, sticky="n,w")
 
         if len(DataBase().fetch_all()) == 0:
             self.ent_delete.config(state="disabled")
@@ -80,19 +81,29 @@ class ListMaker:
 
         # Buttons
 
-        self.save_button = tk.Button(text="Save Date", width=12, heigh=2, font="Georgia 8 bold", fg="#A52A2A",
+        self.drop_down = tk.Button(width=10, height=2, text="Auditors", font="Georgia 8 bold", fg="#A52A2A",
+                                   command=self.drop_down)
+        self.drop_down.grid(row=0, column=0, pady=52, padx=350, sticky="n,w")
+
+        self.drop_down_1 = tk.Button(width=10, height=2, text="Themes", font="Georgia 8 bold", fg="#A52A2A")
+        self.drop_down_1.grid(row=0, column=0, pady=98, padx=350, sticky="n,w")
+
+        self.drop_down_2 = tk.Button(width=10, height=2, text="Date", font="Georgia 8 bold", fg="#A52A2A",
+                                     command=self.calendar)
+        self.drop_down_2.grid(row=0, column=0, pady=144, padx=350, sticky="n,w")
+
+        self.save_button = tk.Button(image=self.icon2, width=34, height=34, font="Georgia 8 bold", fg="#A52A2A",
                                      command=self.save_date)
-        self.save_button.grid(row=0, column=0, pady=150, padx=210, sticky="n,w")
+        self.save_button.grid(row=0, column=0, pady=144, padx=242, sticky="n,w")
 
-        self.delete_button = tk.Button(image=self.icon, width=34, heigh=34,
+        self.delete_button = tk.Button(image=self.icon, width=34, height=34,
                                        font="Georgia 8 bold", fg="#FF3030", command=self.get_id)
-        self.delete_button.grid(row=0, column=0, pady=150, padx=440, sticky="n,w")
+        self.delete_button.grid(row=0, column=0, pady=144, padx=287, sticky="n,w")
 
-        self.drop_down = tk.Button(width=10, heigh=2, text="Auditors",
-                                   font="Georgia 8 bold", fg="#FF3030", command=self.drop_down)
-        self.drop_down.grid(row=0, column=0, pady=150, padx=40, sticky="n,w")
+        self.calendar_button = ()
 
         self.dropdown_frame = ()
+
         self.menu_button_1 = ()
         self.menu_button_2 = ()
         self.menu_button_3 = ()
@@ -109,6 +120,9 @@ class ListMaker:
         self.menu_button_14 = ()
 
         self.canvas()
+
+        self.calendar_frame = ()
+        self.cal = Calendar()
 
     def canvas(self):
 
@@ -181,7 +195,6 @@ class ListMaker:
             self.clear_var()
             self.ent_delete.config(state="normal")
             self.window.update()
-            #self.check_time()
 
     def get_id(self):
 
@@ -227,42 +240,41 @@ class ListMaker:
         self.ent_theme.delete(0, "end")
         self.ent_date.delete(0, "end")
 
-
     def drop_down(self):
 
         global BUTTON_LIST
 
         self.dropdown_frame = tk.Canvas(width=200)
-        self.dropdown_frame.grid(row=0, column=0, pady=50, padx=157, sticky="n,w")
+        self.dropdown_frame.grid(row=0, column=0, pady=50, padx=136, sticky="n,w")
 
         self.menu_button_1 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_2 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_3 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_4 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_5 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_6 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_7 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_8 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_9 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_10 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_11 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_12 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_13 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
         self.menu_button_14 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold",activebackground="#A52A2A", activeforeground="#F4A460")
+                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
 
         BUTTON_LIST = [self.menu_button_1, self.menu_button_2, self.menu_button_3, self.menu_button_4,
                        self.menu_button_5, self.menu_button_6, self.menu_button_7, self.menu_button_8,
@@ -290,17 +302,27 @@ class ListMaker:
         x[-1].destroy()
         self.window.update()
 
-        #self.dropdown_frame.destroy()
-        #print(NEW_LIST)
-        #names = DataBase().check_all_authors()
-        #print(names[button_counter])
+    def calendar(self):
 
+        self.calendar_frame = tk.Canvas(width=20)
+        self.calendar_frame.grid(row=0, column=0, pady=200, padx=120, sticky="n,w")
 
+        self.cal = Calendar(self.calendar_frame, selectmode='day')
+        self.cal.grid(row=0, column=0, sticky="n,w")
 
+        self.calendar_button = tk.Button(self.calendar_frame, width=10, height=2, text="Get Date",
+                                         font="Georgia 8 bold", fg="#A52A2A",
+                                         command=self.calendar_buttons)
+        self.calendar_button.grid(row=1, column=0, sticky="n")
 
-'''
-    def check_time(self):
-        print(datetime.datetime.now().date())
-        print(datetime.datetime.month)
-        print(datetime.datetime.year)
-'''
+    def calendar_buttons(self):
+
+        c = self.cal.selection_get()
+        new_c = datetime.datetime.strftime(c, '%d.%m.%y')
+        self.ent_date.config(state="normal")
+        self.ent_date.delete(0, "end")
+        self.ent_date.insert(0, new_c)
+        self.ent_date.config(state="disabled")
+        x = self.window.winfo_children()
+        x[-1].destroy()
+        self.window.update()
