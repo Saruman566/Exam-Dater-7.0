@@ -22,8 +22,8 @@ class DataBase:
 
     def create_database(self):
 
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS DateList (id INTEGER PRIMARY KEY, author varchar(9) NOT NULL,"
-                            " theme varchar(12) NOT NULL, date varchar(9) NOT NULL)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS DateList (id INTEGER PRIMARY KEY, author varchar NOT NULL,"
+                            " theme varchar NOT NULL, date varchar NOT NULL)")
 
     def make_database_entry(self, e_auditor, e_theme, e_date):
 
@@ -69,8 +69,8 @@ class DataBase:
                                         if 8 not in this_id_list:
                                             this_id = 8
 
-            self.cursor.execute(f"INSERT INTO DateList VALUES('{this_id}', '{e_auditor[:8]}',"
-                                f"'{e_theme[:15]}','{e_date[:8]}')")
+            self.cursor.execute(f"INSERT INTO DateList VALUES('{this_id}', '{e_auditor}',"
+                                f"'{e_theme}','{e_date}')")
             self.db.commit()
         else:
             pass
@@ -88,7 +88,13 @@ class DataBase:
 
     def create_author_table(self):
 
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS AuthorList (id INTEGER PRIMARY KEY AUTOINCREMENT, author varchar(9) NOT NULL)")
+        self.cursor.execute(
+            "CREATE TABLE IF NOT EXISTS AuthorList (id INTEGER PRIMARY KEY AUTOINCREMENT, author varchar NOT NULL)")
+
+    def create_theme_table(self):
+
+        self.cursor.execute(
+            "CREATE TABLE IF NOT EXISTS ThemeList (id INTEGER PRIMARY KEY AUTOINCREMENT, theme varchar NOT NULL)")
 
     def author_new_entry(self):
 
@@ -112,7 +118,7 @@ class DataBase:
         else:
             for name in authors:
 
-                self.cursor.execute(f"INSERT INTO AuthorList ('author') VALUES({name})")
+                self.cursor.execute(f"INSERT INTO AuthorList ('author') VALUES ('{name}')")
                 self.db.commit()
 
     def check_all_authors(self):
@@ -120,9 +126,47 @@ class DataBase:
         try:
             self.cursor.execute("SELECT author FROM AuthorList")
         except sqlite3.OperationalError:
+
             self.create_author_table()
             self.author_new_entry()
 
         all_authors = [name[0] for name in self.cursor.fetchall()]
 
         return all_authors
+
+    def theme_new_entry(self):
+
+        try:
+            self.cursor.execute("SELECT id FROM ThemeList")
+        except sqlite3.OperationalError:
+
+            try:
+                self.create_theme_table()
+            except sqlite3.OperationalError:
+                self.create_database()
+
+        themes = ["WISO", "IT-Systems", "IT-Security", "Programming", "NetworkTechnology",  "Databases",
+                  "Cyberphysical-systems", "Networks and Services", "Data Analysis", "English"]
+
+        self.cursor.execute("SELECT theme FROM ThemeList")
+        all_themes = self.cursor.fetchall()
+
+        if len(all_themes) >= 10:
+            pass
+        else:
+            for them in themes:
+
+                self.cursor.execute(f"INSERT INTO ThemeList ('theme') VALUES ('{them}')")
+                self.db.commit()
+
+    def check_all_themes(self):
+
+        try:
+            self.cursor.execute("SELECT theme FROM ThemeList")
+        except sqlite3.OperationalError:
+            self.create_theme_table()
+            self.theme_new_entry()
+
+        all_themes = [theme[0] for theme in self.cursor.fetchall()]
+
+        return all_themes
