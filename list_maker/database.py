@@ -1,6 +1,5 @@
 # @Daniel Zenglein - "Fiae202207"
 import sqlite3
-import tkinter as tk
 
 
 class DataBase:
@@ -22,8 +21,18 @@ class DataBase:
 
     def create_database(self):
 
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS DateList (id INTEGER PRIMARY KEY, author varchar NOT NULL,"
-                            " theme varchar NOT NULL, date varchar NOT NULL)")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS DateList (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            "author varchar NOT NULL, theme varchar NOT NULL, date varchar NOT NULL)")
+
+    def create_author_table(self):
+
+        self.cursor.execute(
+            "CREATE TABLE IF NOT EXISTS AuthorList (id INTEGER PRIMARY KEY AUTOINCREMENT, author varchar NOT NULL)")
+
+    def create_theme_table(self):
+
+        self.cursor.execute(
+            "CREATE TABLE IF NOT EXISTS ThemeList (id INTEGER PRIMARY KEY AUTOINCREMENT, theme varchar NOT NULL)")
 
     def make_database_entry(self, e_auditor, e_theme, e_date):
 
@@ -37,39 +46,7 @@ class DataBase:
         if act_id < 8:
 
             self.cursor.execute("SELECT * FROM DateList")
-            this_id = len(self.fetch_all())
-            this_id += 1
-
-            this_id_list = []
-
-            for n in self.fetch_all():
-                this_id_list.append(int(n[0]))
-
-            if 1 not in this_id_list:
-                this_id = 1
-            else:
-                if 2 not in this_id_list:
-                    this_id = 2
-                else:
-                    if 3 not in this_id_list:
-                        this_id = 3
-                    else:
-                        if 4 not in this_id_list:
-                            this_id = 4
-                        else:
-                            if 5 not in this_id_list:
-                                this_id = 5
-                            else:
-                                if 6 not in this_id_list:
-                                    this_id = 6
-                                else:
-                                    if 7 not in this_id_list:
-                                        this_id = 7
-                                    else:
-                                        if 8 not in this_id_list:
-                                            this_id = 8
-
-            self.cursor.execute(f"INSERT INTO DateList VALUES('{this_id}', '{e_auditor}',"
+            self.cursor.execute(f"INSERT INTO DateList (author, theme, date) VALUES('{e_auditor}',"
                                 f"'{e_theme}','{e_date}')")
             self.db.commit()
         else:
@@ -77,24 +54,17 @@ class DataBase:
 
     def delete_database_entry(self, num):
 
-        if num != []:
-            self.cursor.execute("SELECT * FROM DateList")
-            self.cursor.execute(f"DELETE from DateList where id={num}")
-            self.db.commit()
-        else:
-            pass
+        x = num + 1
+        counter = 0
+        for n in (self.fetch_all()):
+            counter += 1
+            if counter == x:
+
+                self.cursor.execute("SELECT * FROM DateList")
+                self.cursor.execute(f"DELETE from DateList where rowid={n[0]}")
+                self.db.commit()
 
 # New Author-Table
-
-    def create_author_table(self):
-
-        self.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS AuthorList (id INTEGER PRIMARY KEY AUTOINCREMENT, author varchar NOT NULL)")
-
-    def create_theme_table(self):
-
-        self.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS ThemeList (id INTEGER PRIMARY KEY AUTOINCREMENT, theme varchar NOT NULL)")
 
     def author_new_entry(self):
 

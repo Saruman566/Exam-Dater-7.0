@@ -1,11 +1,16 @@
 # @Daniel Zenglein - "Fiae202207"
+import tkinter
+
+import tkcalendar
 import tkinter as tk
-from tkcalendar import Calendar
+from tkinter import messagebox
 from database import DataBase
 import datetime
 
 CANVAS_LIST = []
 BUTTON_LIST = []
+CALENDAR_COUNTER = 0
+NUMBER_LIST = 0
 
 
 class ListMaker:
@@ -17,7 +22,10 @@ class ListMaker:
         self.window = tk.Tk()
         self.window.title("Exam-Dater")
         self.window.geometry("700x700+500+200")
+        self.window.iconbitmap(r'Examdater1.ico')
         self.window.resizable(False, False)
+
+        self.calendar_window = tk.Canvas()
 
         # Images
 
@@ -90,10 +98,9 @@ class ListMaker:
 
         # Buttons
 
-        self.drop_down_bu = tk.Button(width=10, height=2, text="Auditors", font="Georgia 8 bold", fg="#A52A2A")
+        self.drop_down_bu = tk.Button(width=10, height=2, text="Auditors", font="Georgia 8 bold", fg="#A52A2A",
+                                      command=self.drop_down)
         self.drop_down_bu.grid(row=0, column=0, pady=52, padx=548, sticky="n,w")
-
-        self.drop_down_bu.bind("<Enter>", lambda e: self.drop_down())
 
         self.remove_button_1 = tk.Button(image=self.icon3, width=34, height=34, font="Georgia 8 bold", fg="#A52A2A",
                                          command=self.clear_var_1)
@@ -103,8 +110,6 @@ class ListMaker:
                                      command=self.drop_down_themes)
         self.drop_down_1.grid(row=0, column=0, pady=98, padx=548, sticky="n,w")
 
-        self.drop_down_1.bind("<Enter>", lambda e: self.drop_down_themes())
-
         self.remove_button_2 = tk.Button(image=self.icon3, width=34, height=34, font="Georgia 8 bold", fg="#A52A2A",
                                          command=self.clear_var_2)
         self.remove_button_2.grid(row=0, column=0, pady=98, padx=648, sticky="n,w")
@@ -112,8 +117,6 @@ class ListMaker:
         self.drop_down_2 = tk.Button(width=10, height=2, text="Date", font="Georgia 8 bold", fg="#A52A2A",
                                      command=self.calendar)
         self.drop_down_2.grid(row=0, column=0, pady=144, padx=548, sticky="n,w")
-
-        self.drop_down_2.bind("<Enter>", lambda e: self.calendar())
 
         self.remove_button_3 = tk.Button(image=self.icon3, width=34, height=34, font="Georgia 8 bold", fg="#A52A2A",
                                          command=self.clear_var_3)
@@ -124,15 +127,13 @@ class ListMaker:
         self.save_button.grid(row=0, column=0, pady=144, padx=420, sticky="n,w")
 
         self.delete_button = tk.Button(image=self.icon, width=34, height=34,
-                                       font="Georgia 8 bold", fg="#FF3030")
+                                       font="Georgia 8 bold", fg="#FF3030", command=self.get_id)
         self.delete_button.grid(row=0, column=0, pady=144, padx=473, sticky="n,w")
-
-        self.delete_button.bind("<Enter>", lambda e: self.get_id())
 
         self.calendar_button = ()
 
-        self.dropdown_frame = ()
-        self.dropdown_themes_frame = ()
+        self.dropdown_frame = None
+        self.dropdown_themes_frame = None
 
         self.menu_button_1 = ()
         self.menu_button_2 = ()
@@ -152,7 +153,8 @@ class ListMaker:
         self.canvas()
 
         self.calendar_frame = ()
-        self.cal = Calendar()
+        self.cal = tkcalendar.Calendar()
+        self.calendar_window = None
 
         self.dropdown_delete = ()
 
@@ -261,18 +263,27 @@ class ListMaker:
                        self.list_canvas_5, self.list_canvas_5a, self.list_canvas_5b, self.list_canvas_6,
                        self.list_canvas_6a, self.list_canvas_6b, self.list_canvas_7, self.list_canvas_7a,
                        self.list_canvas_7b, self.list_canvas_8, self.list_canvas_8a, self.list_canvas_8b]
-        self.save_date()
-
-    def save_date(self):
 
         DataBase().author_new_entry()
         DataBase().theme_new_entry()
-        if self.e_date.get() == "":
+        self.make_new_list()
+
+    def save_date(self):
+
+        if self.e_auditor.get() == "":
+            tk.messagebox.showwarning(
+                "No Auditor", "Sorry, can`t save without an Auditor\nPlease fill all three Entry`s")
             pass
-        else:
+        if self.e_theme.get() == "":
+            tk.messagebox.showwarning("No Theme", "Sorry, can`t save without a Theme.\nPlease fill all three Entry`s")
+            pass
+        if self.e_date.get() == "":
+            tk.messagebox.showwarning("No Date", "Sorry, can`t save without a Date.\nPlease fill all three Entry`s")
+            pass
+        if self.e_auditor.get() != "" and self.e_theme.get() != "" and self.e_date.get() != "":
             DataBase().make_database_entry(e_auditor=self.ent_auditor.get(), e_theme=self.ent_theme.get(),
                                            e_date=self.ent_date.get())
-        self.make_new_list()
+            self.make_new_list()
 
     def make_new_list(self):
 
@@ -280,6 +291,7 @@ class ListMaker:
         counter = 0
         list_counter = 0
         counter_list = []
+        list_number = 0
 
         for n in range(len(DataBase().fetch_all())):
 
@@ -288,7 +300,7 @@ class ListMaker:
             new_list.append(new_string)
             counter_list.append(new_list[counter][0])
 
-            CANVAS_LIST[list_counter].config(text=f"{new_list[counter][0]} {new_list[counter][1]}")
+            CANVAS_LIST[list_counter].config(text=f"{list_number + 1} {new_list[counter][1]}")
 
             list_counter += 1
 
@@ -300,9 +312,12 @@ class ListMaker:
 
             list_counter += 1
             counter += 1
+            list_number += 1
 
             self.clear_var()
             self.window.update()
+
+        return list_number
 
     def update(self):
 
@@ -342,54 +357,60 @@ class ListMaker:
 
         global BUTTON_LIST
 
-        self.dropdown_frame = tk.Canvas(width=200)
-        self.dropdown_frame.grid(row=0, column=0, pady=54, padx=338, sticky="n,w")
+        self.dropdown_themes_frame = None
 
-        self.menu_button_1 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_2 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_3 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_4 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_5 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_6 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_7 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_8 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_9 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_10 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_11 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_12 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_13 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_14 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+        if self.dropdown_frame is None:
 
-        BUTTON_LIST = [self.menu_button_1, self.menu_button_2, self.menu_button_3, self.menu_button_4,
-                       self.menu_button_5, self.menu_button_6, self.menu_button_7, self.menu_button_8,
-                       self.menu_button_9, self.menu_button_10, self.menu_button_11, self.menu_button_12,
-                       self.menu_button_13, self.menu_button_14]
+            self.dropdown_frame = tk.Canvas(width=200)
+            self.dropdown_frame.grid(row=0, column=0, pady=54, padx=338, sticky="n,w")
 
-        authors = DataBase().check_all_authors()
+            self.menu_button_1 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_2 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_3 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_4 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_5 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_6 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_7 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_8 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_9 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_10 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_11 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_12 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_13 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_14 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
 
-        button_counter = 0
+            BUTTON_LIST = [self.menu_button_1, self.menu_button_2, self.menu_button_3, self.menu_button_4,
+                           self.menu_button_5, self.menu_button_6, self.menu_button_7, self.menu_button_8,
+                           self.menu_button_9, self.menu_button_10, self.menu_button_11, self.menu_button_12,
+                           self.menu_button_13, self.menu_button_14]
 
-        for name in authors:
+            authors = DataBase().check_all_authors()
 
-            BUTTON_LIST[button_counter].configure(text=name, command=lambda t=name: self.menu_buttons(t))
-            BUTTON_LIST[button_counter].grid(column=0, row=button_counter)
-            button_counter += 1
+            button_counter = 0
 
-        self.dropdown_frame.bind("<Leave>", lambda e: self.del_drop_menu())
+            for name in authors:
+
+                BUTTON_LIST[button_counter].configure(text=name, command=lambda t=name: self.menu_buttons(t))
+                BUTTON_LIST[button_counter].grid(column=0, row=button_counter)
+                button_counter += 1
+
+            self.dropdown_frame.bind("<Leave>", lambda e: self.del_drop_menu())
+        else:
+            pass
 
     def menu_buttons(self, t):
 
@@ -405,55 +426,61 @@ class ListMaker:
 
         global BUTTON_LIST
 
-        self.dropdown_themes_frame = tk.Canvas(width=200)
-        self.dropdown_themes_frame.grid(row=0, column=0, pady=100, padx=301, sticky="n,w")
+        self.dropdown_frame = None
 
-        self.menu_button_1 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_2 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_3 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_4 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_5 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_6 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_7 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_8 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_9 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                       font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_10 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_11 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_12 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_13 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
-        self.menu_button_14 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
-                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+        if self.dropdown_themes_frame is None:
 
-        BUTTON_LIST = [self.menu_button_1, self.menu_button_2, self.menu_button_3, self.menu_button_4,
-                       self.menu_button_5, self.menu_button_6, self.menu_button_7, self.menu_button_8,
-                       self.menu_button_9, self.menu_button_10, self.menu_button_11, self.menu_button_12,
-                       self.menu_button_13, self.menu_button_14]
+            self.dropdown_themes_frame = tk.Canvas(width=200)
+            self.dropdown_themes_frame.grid(row=0, column=0, pady=100, padx=301, sticky="n,w")
 
-        themes = DataBase().check_all_themes()
+            self.menu_button_1 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_2 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_3 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_4 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_5 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_6 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_7 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_8 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_9 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                           font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_10 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_11 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_12 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_13 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
+            self.menu_button_14 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
+                                            font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
 
-        button_counter = 0
+            BUTTON_LIST = [self.menu_button_1, self.menu_button_2, self.menu_button_3, self.menu_button_4,
+                           self.menu_button_5, self.menu_button_6, self.menu_button_7, self.menu_button_8,
+                           self.menu_button_9, self.menu_button_10, self.menu_button_11, self.menu_button_12,
+                           self.menu_button_13, self.menu_button_14]
 
-        for theme in themes:
+            themes = DataBase().check_all_themes()
 
-            BUTTON_LIST[button_counter].configure(text=theme, command=lambda t=theme: self.theme_menu_buttons(t))
-            BUTTON_LIST[button_counter].grid(column=0, row=button_counter)
+            button_counter = 0
 
-            button_counter += 1
+            for theme in themes:
 
-        self.dropdown_themes_frame.bind("<Leave>", lambda e: self.del_drop_menu())
+                BUTTON_LIST[button_counter].configure(text=theme, command=lambda t=theme: self.theme_menu_buttons(t))
+                BUTTON_LIST[button_counter].grid(column=0, row=button_counter)
+
+                button_counter += 1
+
+            self.dropdown_themes_frame.bind("<Leave>", lambda e: self.del_drop_menu())
+        else:
+            pass
 
     def theme_menu_buttons(self, t):
 
@@ -465,38 +492,52 @@ class ListMaker:
         x[-1].destroy()
         self.window.update()
 
+    def dis_ev(self):
+        pass
+
     def calendar(self):
 
-        self.calendar_frame = tk.Canvas(width=20)
-        self.calendar_frame.grid(row=0, column=0, pady=145, padx=290, sticky="n,w")
+        if self.dropdown_themes_frame or self.dropdown_frame in self.window.winfo_children():
+            self.del_drop_menu()
+            self.update()
+        else:
+            pass
+        self.update()
+        if self.calendar_window is None:
+            self.calendar_window = tk.Toplevel()
+            self.calendar_window.title("Calendar")
+            self.calendar_window.geometry("251x230+1201+200")
+            self.calendar_window.iconbitmap(r'Examdater1.ico')
+            self.calendar_window.protocol("WM_DELETE_WINDOW", self.dis_ev)
+            self.calendar_window.resizable(False, False)
 
-        self.cal = Calendar(self.calendar_frame, selectmode='day')
+        self.cal = tkcalendar.Calendar(self.calendar_window, selectmode='day')
         self.cal.grid(row=0, column=0, sticky="n,w")
 
-        self.calendar_button = tk.Button(self.calendar_frame, width=10, height=2, text="Get Date",
-                                         font="Georgia 8 bold", fg="#A52A2A",
+        self.calendar_button = tk.Button(self.calendar_window, width=14, height=1, text="Get Date",
+                                         font="Georgia 20 bold", fg="#A52A2A",
                                          command=self.calendar_buttons)
         self.calendar_button.grid(row=1, column=0, sticky="n")
 
-        self.calendar_frame.bind("<Leave>", lambda e: self.del_drop_menu())
-
     def calendar_buttons(self):
 
+        if self.calendar_window is not None:
+            self.calendar_window.destroy()
+            self.calendar_window.update()
+            self.calendar_window = None
         c = self.cal.selection_get()
         new_c = datetime.datetime.strftime(c, '%d.%m.%y')
         self.ent_date.config(state="normal")
         self.ent_date.delete(0, "end")
         self.ent_date.insert(0, new_c)
         self.ent_date.config(state="disabled")
-        x = self.window.winfo_children()
-        x[-1].destroy()
-        self.window.update()
 
     def del_drop_menu(self):
 
         x = self.window.winfo_children()
         x[-1].destroy()
         self.window.update()
+        self.update()
 
     def get_id(self):
 
@@ -531,13 +572,13 @@ class ListMaker:
 
             button_counter = 0
 
-            for n in ids:
+            x = self.make_new_list()
 
-                BUTTON_LIST[button_counter].configure(text=n[0], command=lambda t=n[0]: DataBase().delete_database_entry(t))
+            for num in range(x):
+
+                BUTTON_LIST[button_counter].configure(text=num + 1, command=lambda t=num: [DataBase().delete_database_entry(t), self.del_drop_menu()])
                 BUTTON_LIST[button_counter].grid(column=0, row=button_counter)
                 button_counter += 1
-
-            self.dropdown_delete.bind("<Leave>", lambda e: self.win_update())
 
     def win_update(self):
 
@@ -545,4 +586,8 @@ class ListMaker:
         x[-1].destroy()
         self.update()
         self.window.update()
+
+
+
+
 
