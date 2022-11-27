@@ -1,4 +1,5 @@
 # @Daniel Zenglein - "Fiae202207"
+import csv
 import sqlite3
 
 
@@ -68,6 +69,8 @@ class DataBase:
 
     def author_new_entry(self):
 
+        authors = []
+
         try:
             self.cursor.execute("SELECT id FROM AuthorList")
         except sqlite3.OperationalError:
@@ -77,8 +80,10 @@ class DataBase:
             except sqlite3.OperationalError:
                 self.create_database()
 
-        authors = ["Eber", "Stegmann", "Helmecke", "Lange", "Laufer", "Grüger", "Bieber", "Strelnikova", "Dachwald",
-                   "Rosenbusch", "Großhauser", "Ringer", "Jevtic", "Korn"]
+        with open("teacher.csv") as file:
+            x = csv.reader(file)
+            for teacher in x:
+                authors.append(str(teacher[0]))
 
         self.cursor.execute("SELECT author FROM AuthorList")
         all_authors = self.cursor.fetchall()
@@ -87,7 +92,6 @@ class DataBase:
             pass
         else:
             for name in authors:
-
                 self.cursor.execute(f"INSERT INTO AuthorList ('author') VALUES ('{name}')")
                 self.db.commit()
 
@@ -106,6 +110,8 @@ class DataBase:
 
     def theme_new_entry(self):
 
+        themes = []
+
         try:
             self.cursor.execute("SELECT id FROM ThemeList")
         except sqlite3.OperationalError:
@@ -115,8 +121,10 @@ class DataBase:
             except sqlite3.OperationalError:
                 self.create_database()
 
-        themes = ["WISO", "IT-Systems", "IT-Security", "Programming", "NetworkTechnology",  "Databases",
-                  "Cyberphysical-systems", "Networks and Services", "Data Analysis", "English"]
+        with open("themeFields.csv") as file:
+            x = csv.reader(file)
+            for themeFields in x:
+                themes.append(str(themeFields[0]))
 
         self.cursor.execute("SELECT theme FROM ThemeList")
         all_themes = self.cursor.fetchall()

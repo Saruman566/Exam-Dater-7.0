@@ -9,7 +9,7 @@ import datetime
 
 CANVAS_LIST = []
 BUTTON_LIST = []
-CALENDAR_COUNTER = 0
+CALENDAR_COUNTER = 1
 NUMBER_LIST = 0
 
 
@@ -137,8 +137,8 @@ class ListMaker:
 
         self.dropdown_frame = ()
         self.dropdown_themes_frame = ()
-        self.dropdown_themes_window = None
-        self.dropdown_drop_window = None
+        self.dropdown_drop_window = ()
+        self.dropdown_themes_window = ()
 
         self.menu_button_1 = ()
         self.menu_button_2 = ()
@@ -159,7 +159,7 @@ class ListMaker:
 
         self.calendar_frame = ()
         self.cal = tkcalendar.Calendar()
-        self.calendar_window = None
+        self.calendar_window = ()
 
         self.dropdown_delete = ()
 
@@ -361,18 +361,17 @@ class ListMaker:
     def drop_down(self):
 
         global BUTTON_LIST
+        global CALENDAR_COUNTER
 
-        self.dropdown_drop_window = tk.Toplevel()
+        self.dropdown_drop_window = tk.Toplevel(self.window)
         self.dropdown_drop_window.overrideredirect(True)
-        self.dropdown_drop_window.geometry("210x448+846+284")
+        self.dropdown_drop_window.geometry("+846+284")
         self.dropdown_drop_window.resizable(False, False)
-
-        #print(self.dropdown_drop_window.winfo_x())
-
-        #self.window.bind("<Configure>", self.get_with())
 
         self.dropdown_frame = tk.Canvas(self.dropdown_drop_window, width=200)
         self.dropdown_frame.grid(row=0, column=0, sticky="n,w")
+        CALENDAR_COUNTER += 1
+
 
         self.menu_button_1 = tk.Button(self.dropdown_frame, width=20, height=1, bg="#A52A2A", fg="#F4A460",
                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
@@ -418,14 +417,11 @@ class ListMaker:
             BUTTON_LIST[button_counter].grid(column=0, row=button_counter)
             button_counter += 1
 
-    def get_with(self, event=None):
-
-        x = self.window.winfo_x() + 346
-        y = self.window.winfo_y() + 84
-        self.dropdown_drop_window.geometry("+%d+%d" % (x, y))
-
     def menu_buttons(self, t):
 
+        global CALENDAR_COUNTER
+
+        CALENDAR_COUNTER = 1
         self.ent_auditor.config(state="normal")
         self.ent_auditor.delete(0, "end")
         self.ent_auditor.insert(0, t)
@@ -437,14 +433,24 @@ class ListMaker:
     def drop_down_themes(self):
 
         global BUTTON_LIST
+        global CALENDAR_COUNTER
 
-        self.dropdown_themes_window = tk.Toplevel()
-        self.dropdown_themes_window.overrideredirect(True)
-        self.dropdown_themes_window.geometry("240x320+816+330")
-        self.dropdown_themes_window.resizable(False, False)
+        if tk.Toplevel in tk.Toplevel.winfo_children(self.window):
+            print("yes toplvl")
 
-        self.dropdown_themes_frame = tk.Canvas(self.dropdown_themes_window, width=200)
-        self.dropdown_themes_frame.grid(row=0, column=0, sticky="n,w")
+
+        if CALENDAR_COUNTER < 2:
+
+            self.dropdown_themes_window = tk.Toplevel(self.window)
+            self.dropdown_themes_window.overrideredirect(True)
+            self.dropdown_themes_window.geometry("240x320+816+330")
+            self.dropdown_themes_window.resizable(False, False)
+
+            self.dropdown_themes_frame = tk.Canvas(self.dropdown_themes_window, width=200)
+            self.dropdown_themes_frame.grid(row=0, column=0, sticky="n,w")
+            CALENDAR_COUNTER += 1
+        else:
+            pass
 
         self.menu_button_1 = tk.Button(self.dropdown_themes_frame, width=23, height=1, bg="#A52A2A", fg="#F4A460",
                                        font="Courier 12 bold", activebackground="#A52A2A", activeforeground="#F4A460")
@@ -493,6 +499,9 @@ class ListMaker:
 
     def theme_menu_buttons(self, t):
 
+        global CALENDAR_COUNTER
+
+        CALENDAR_COUNTER = 1
         self.ent_theme.config(state="normal")
         self.ent_theme.delete(0, "end")
         self.ent_theme.insert(0, t)
@@ -506,38 +515,38 @@ class ListMaker:
 
     def calendar(self):
 
-        #print(self.dropdown_drop_window.winfo_exists())
-        #if tk.Toplevel in self.window.winfo_exists():
-            #print(tk.Toplevel)
+        global CALENDAR_COUNTER
 
-        self.calendar_window = tk.Toplevel()
-        self.calendar_window.overrideredirect(True)
-        self.calendar_window.geometry("250x240+805+376")
-        self.window.bind("<Configure>", self.calendar_window)
-        self.calendar_window.resizable(False, False)
+        if CALENDAR_COUNTER < 2:
+            self.calendar_window = tk.Toplevel()
+            self.calendar_window.overrideredirect(True)
+            self.calendar_window.geometry("250x240+805+376")
+            self.calendar_window.resizable(False, False)
 
-        self.cal = tkcalendar.Calendar(self.calendar_window, selectmode='day')
-        self.cal.grid(row=0, column=0, sticky="n,w")
+            self.cal = tkcalendar.Calendar(self.calendar_window, selectmode='day')
+            self.cal.grid(row=0, column=0, sticky="n,w")
 
-        self.calendar_button = tk.Button(self.calendar_window, width=14, height=1, text="Get Date",
-                                         font="Georgia 19 bold", fg="#A52A2A",
-                                         command=self.calendar_buttons)
-        self.calendar_button.grid(row=1, column=0, padx=2, sticky="")
-
-        print(self.window.winfo_children())
+            self.calendar_button = tk.Button(self.calendar_window, width=14, height=1, text="Get Date",
+                                             font="Georgia 19 bold", fg="#A52A2A",
+                                             command=self.calendar_buttons)
+            self.calendar_button.grid(row=1, column=0, padx=2, sticky="")
+            CALENDAR_COUNTER += 1
+        else:
+            pass
 
     def calendar_buttons(self):
 
-        if self.calendar_window is not None:
-            self.calendar_window.destroy()
-            self.calendar_window.update()
-            self.calendar_window = None
+        global CALENDAR_COUNTER
+        CALENDAR_COUNTER = 1
         c = self.cal.selection_get()
         new_c = datetime.datetime.strftime(c, '%d.%m.%y')
         self.ent_date.config(state="normal")
         self.ent_date.delete(0, "end")
         self.ent_date.insert(0, new_c)
         self.ent_date.config(state="disabled")
+        x = self.window.winfo_children()
+        x[-1].destroy()
+        self.window.update()
 
     def del_drop_menu(self):
 
