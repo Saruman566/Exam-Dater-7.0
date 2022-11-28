@@ -1,5 +1,4 @@
-# @Daniel Zenglein - "Fiae202207"
-import csv
+# @Daniel Zenglein - "FIAE-202207"
 import sqlite3
 
 
@@ -24,16 +23,6 @@ class DataBase:
 
         self.cursor.execute("CREATE TABLE IF NOT EXISTS DateList (id INTEGER PRIMARY KEY AUTOINCREMENT,"
                             "author varchar NOT NULL, theme varchar NOT NULL, date varchar NOT NULL)")
-
-    def create_author_table(self):
-
-        self.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS AuthorList (id INTEGER PRIMARY KEY AUTOINCREMENT, author varchar NOT NULL)")
-
-    def create_theme_table(self):
-
-        self.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS ThemeList (id INTEGER PRIMARY KEY AUTOINCREMENT, theme varchar NOT NULL)")
 
     def make_database_entry(self, e_auditor, e_theme, e_date):
 
@@ -65,7 +54,18 @@ class DataBase:
                 self.cursor.execute(f"DELETE from DateList where rowid={n[0]}")
                 self.db.commit()
 
-# New Author-Table
+    '''
+    def create_author_table(self):
+
+       self.cursor.execute(
+           "CREATE TABLE IF NOT EXISTS AuthorList (id INTEGER PRIMARY KEY AUTOINCREMENT, author varchar NOT NULL)")
+
+    def create_theme_table(self):
+
+       self.cursor.execute(
+           "CREATE TABLE IF NOT EXISTS ThemeList (id INTEGER PRIMARY KEY AUTOINCREMENT, theme varchar NOT NULL)")
+
+    #New Author-Table
 
     def author_new_entry(self):
 
@@ -96,22 +96,22 @@ class DataBase:
                 self.db.commit()
 
     def check_all_authors(self):
-
+ 
         try:
             self.cursor.execute("SELECT author FROM AuthorList")
         except sqlite3.OperationalError:
-
+ 
             self.create_author_table()
             self.author_new_entry()
-
+ 
         all_authors = [name[0] for name in self.cursor.fetchall()]
-
+ 
         return all_authors
 
     def theme_new_entry(self):
-
+ 
         themes = []
-
+ 
         try:
             self.cursor.execute("SELECT id FROM ThemeList")
         except sqlite3.OperationalError:
@@ -120,31 +120,32 @@ class DataBase:
                 self.create_theme_table()
             except sqlite3.OperationalError:
                 self.create_database()
-
+ 
         with open("themeFields.csv") as file:
             x = csv.reader(file)
             for themeFields in x:
                 themes.append(str(themeFields[0]))
-
+ 
         self.cursor.execute("SELECT theme FROM ThemeList")
         all_themes = self.cursor.fetchall()
-
+ 
         if len(all_themes) >= 10:
             pass
         else:
             for them in themes:
-
+ 
                 self.cursor.execute(f"INSERT INTO ThemeList ('theme') VALUES ('{them}')")
                 self.db.commit()
 
     def check_all_themes(self):
-
+ 
         try:
             self.cursor.execute("SELECT theme FROM ThemeList")
         except sqlite3.OperationalError:
             self.create_theme_table()
             self.theme_new_entry()
-
+ 
         all_themes = [theme[0] for theme in self.cursor.fetchall()]
-
+ 
         return all_themes
+    '''

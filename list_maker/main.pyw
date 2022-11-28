@@ -1,4 +1,4 @@
-# @Daniel Zenglein - "Fiae202207"
+# @Daniel Zenglein - "FIAE-202207"
 from list_maker import ListMaker
 import tkinter as tk
 
