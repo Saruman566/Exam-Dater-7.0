@@ -3,7 +3,6 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from Listmaker_GUI import Ui_MainWindow
-from Rollup_menu import Ui_main_container
 from database import DataBase
 import datetime as dt
 
@@ -14,6 +13,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Datemaker")
+        self.notelist = ()
 
         # Data_table_headers
         self.date_table.resizeColumnsToContents()
@@ -93,6 +93,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.date_table.setItem(row_counter, column_counter, a)
             a.setTextAlignment(Qt.AlignCenter)
             a.setFlags(a.flags() & ~ Qt.ItemIsEditable)
+            self.font_color(a)
             column_counter += 1
 
             self.date_table.setItem(row_counter, column_counter, b)
@@ -106,6 +107,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             row_counter += 1
             row_label_counter += 1
+
+    def font_color(self, a):
+
+        today = self.actually_date.today().strftime("%d")
+        print(today)
+        for n in DataBase().fetch_all():
+            days = n[3][:2]
+            if int(today) + 5 == int(days):
+                print(n[3])
+                print("5 days left")
+                a.setForeground(QBrush("#FF0000"))
 
     def saving(self):
 
@@ -178,5 +190,4 @@ if __name__ == "__main__":
     app = QApplication()
     window = MainWindow()
     window.show()
-
     app.exec()
