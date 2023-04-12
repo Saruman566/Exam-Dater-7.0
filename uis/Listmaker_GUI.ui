@@ -111,72 +111,101 @@
              <enum>QFrame::Sunken</enum>
             </property>
             <layout class="QGridLayout" name="gridLayout_3">
-             <item row="0" column="3">
-              <widget class="QToolButton" name="btn_teacher">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+             <item row="1" column="0">
+              <widget class="QFrame" name="Show_window2">
+               <property name="frameShape">
+                <enum>QFrame::Box</enum>
                </property>
+               <property name="frameShadow">
+                <enum>QFrame::Sunken</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="themen_label">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="sizeIncrement">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Lucida Handwriting</family>
+                    <pointsize>22</pointsize>
+                   </font>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::NoFrame</enum>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="4">
+              <widget class="QToolButton" name="del_button">
                <property name="minimumSize">
                 <size>
-                 <width>120</width>
+                 <width>50</width>
                  <height>50</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>120</width>
+                 <width>50</width>
                  <height>50</height>
                 </size>
                </property>
                <property name="sizeIncrement">
                 <size>
-                 <width>120</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="baseSize">
-                <size>
-                 <width>120</width>
+                 <width>50</width>
                  <height>50</height>
                 </size>
                </property>
                <property name="font">
                 <font>
                  <family>Lucida Handwriting</family>
-                 <pointsize>18</pointsize>
-                 <italic>false</italic>
-                 <bold>false</bold>
+                 <pointsize>22</pointsize>
                 </font>
                </property>
-               <property name="focusPolicy">
-                <enum>Qt::TabFocus</enum>
-               </property>
-               <property name="contextMenuPolicy">
-                <enum>Qt::DefaultContextMenu</enum>
-               </property>
-               <property name="acceptDrops">
-                <bool>false</bool>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
                <property name="styleSheet">
-                <string notr="true"/>
+                <string notr="true">image: url(:/delete/images/trashcan.png);</string>
                </property>
                <property name="text">
-                <string>Lehrer</string>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="checkable">
-                <bool>false</bool>
+                <string/>
                </property>
                <property name="popupMode">
                 <enum>QToolButton::InstantPopup</enum>
@@ -184,12 +213,122 @@
                <property name="toolButtonStyle">
                 <enum>Qt::ToolButtonTextOnly</enum>
                </property>
-               <property name="autoRaise">
-                <bool>false</bool>
-               </property>
                <property name="arrowType">
                 <enum>Qt::DownArrow</enum>
                </property>
+              </widget>
+             </item>
+             <item row="0" column="4">
+              <widget class="QPushButton" name="teacher_del_button">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">image: url(:/back/images/back.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QFrame" name="Show_window1">
+               <property name="minimumSize">
+                <size>
+                 <width>371</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>371</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>371</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Box</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Sunken</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="lehrer_label">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="sizeIncrement">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Lucida Handwriting</family>
+                    <pointsize>22</pointsize>
+                   </font>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::NoFrame</enum>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
              <item row="2" column="0">
@@ -280,65 +419,8 @@
                </layout>
               </widget>
              </item>
-             <item row="2" column="3">
-              <widget class="QPushButton" name="save_button">
-               <property name="minimumSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="sizeIncrement">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">image: url(:/save/images/save.png);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="4">
               <widget class="QPushButton" name="themes_del_button">
-               <property name="minimumSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="sizeIncrement">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">image: url(:/back/images/back.png);
-</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="4">
-              <widget class="QPushButton" name="teacher_del_button">
                <property name="minimumSize">
                 <size>
                  <width>50</width>
@@ -363,70 +445,6 @@
                <property name="text">
                 <string/>
                </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QFrame" name="Show_window2">
-               <property name="frameShape">
-                <enum>QFrame::Box</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Sunken</enum>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="themen_label">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="sizeIncrement">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Lucida Handwriting</family>
-                    <pointsize>22</pointsize>
-                   </font>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
               </widget>
              </item>
              <item row="1" column="3">
@@ -476,122 +494,72 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
-              <widget class="QFrame" name="Show_window1">
+             <item row="0" column="3">
+              <widget class="QToolButton" name="btn_teacher">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
-                 <width>371</width>
+                 <width>120</width>
                  <height>50</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>371</width>
+                 <width>120</width>
                  <height>50</height>
                 </size>
                </property>
                <property name="sizeIncrement">
                 <size>
-                 <width>371</width>
+                 <width>120</width>
                  <height>50</height>
                 </size>
                </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Box</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Sunken</enum>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_3">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="lehrer_label">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="sizeIncrement">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Lucida Handwriting</family>
-                    <pointsize>22</pointsize>
-                   </font>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item row="2" column="4">
-              <widget class="QToolButton" name="del_button">
-               <property name="minimumSize">
+               <property name="baseSize">
                 <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="sizeIncrement">
-                <size>
-                 <width>50</width>
+                 <width>120</width>
                  <height>50</height>
                 </size>
                </property>
                <property name="font">
                 <font>
                  <family>Lucida Handwriting</family>
-                 <pointsize>22</pointsize>
+                 <pointsize>18</pointsize>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::DefaultContextMenu</enum>
+               </property>
+               <property name="acceptDrops">
+                <bool>false</bool>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
                <property name="styleSheet">
-                <string notr="true">image: url(:/delete/images/trashcan.png);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
-                <string/>
+                <string>Lehrer</string>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
                </property>
                <property name="popupMode">
                 <enum>QToolButton::InstantPopup</enum>
@@ -599,8 +567,39 @@
                <property name="toolButtonStyle">
                 <enum>Qt::ToolButtonTextOnly</enum>
                </property>
+               <property name="autoRaise">
+                <bool>false</bool>
+               </property>
                <property name="arrowType">
                 <enum>Qt::DownArrow</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QPushButton" name="save_button">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="sizeIncrement">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">image: url(:/save/images/save.png);</string>
+               </property>
+               <property name="text">
+                <string/>
                </property>
               </widget>
              </item>
@@ -799,24 +798,26 @@ background-color: rgb(85, 255, 255);</string>
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuListmaker">
+   <widget class="QMenu" name="Menu">
     <property name="title">
-     <string>Listmaker</string>
+     <string>Datei</string>
     </property>
-    <addaction name="actionListmaker"/>
+    <addaction name="actionNotenListe"/>
     <addaction name="separator"/>
-    <addaction name="actionNoten_Liste"/>
    </widget>
-   <addaction name="menuListmaker"/>
+   <addaction name="Menu"/>
   </widget>
+  <action name="actionNotenListe">
+   <property name="text">
+    <string>Noten-Liste</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline;&quot;&gt;Noten-Liste&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
   <action name="actionListmaker">
    <property name="text">
     <string>Listmaker</string>
-   </property>
-  </action>
-  <action name="actionNoten_Liste">
-   <property name="text">
-    <string>Noten-Liste</string>
    </property>
   </action>
  </widget>
