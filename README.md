@@ -3,7 +3,7 @@
 
 ## Info:
 
-          In Directory **"Lists"** are 2 Csv-Files:  **techer.csv, themes.csv;**
+          In Directory **"Lists"** are 2 Csv-Files:  __techer.csv, themes.csv;__
           With this Files, you can controll/change the Pullup-menus of the Buttons "Teacher" and "Theme"
 
 
