@@ -9,7 +9,7 @@ With this Files, you can controll/change the Pullup-menus of the Buttons "Teache
 
 ## Functions:
 
-You can save a Date with Teacher and Theme.
+$${\color{white} You \space can \space save \space a \space Date \space with \space Teacher \space and \space Theme.}§§
 
 $${\color{lightgreen} Its \space \color{orange}5 \space \color{lightgreen}Days \space bevor \space your \space Date, \space the \space Color \space of \space the \space Date \space is \space changing \space to \space \color{orange}Orange.}$$
 
