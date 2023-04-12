@@ -16,7 +16,7 @@ $${\color{lightgreen} Its \space \color{orange}5 \space \color{lightgreen}Days \
 $${\color{red}3 \space \color{lightgreen}\space Days \space bevor \space your \space Date, \space it \space changing \space to \space \color{red}Red.}$$
 
 
-Its One Day after Date the entry delete himself.
+$${\color{lightgreen}Its \space One \space Day \space after \space Date \space the \space entry \space \color{red}delete \space himself.
 
 
 
