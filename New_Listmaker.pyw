@@ -155,16 +155,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.saveBox = QMessageBox()
 
         if self.lehrer_label.text() == "":
-            self.teacherBox = QMessageBox.warning(self, "Keine/n Pruefer/in gewaehlt!",
-                                                "Sorry,sie koennen nicht speichern wenn sie keine/n Pruefer/in"
-                                                " ausgewaehlt haben\nBitte fuellen sie alle Felder aus.",
+            self.teacherBox = QMessageBox.warning(self, "No Teacher selected!",
+                                                "Sorry, but you must selected a teacher",
                                                 QMessageBox.StandardButton(QMessageBox.StandardButton.Ok),
                                                 QMessageBox.StandardButton(QMessageBox.StandardButton.Ok))
 
         elif self.themen_label.text() == "":
-            self.themeBox = QMessageBox.warning(self, "Kein Thema gewaehlt!",
-                                                "Sorry, sie koennen nicht speichern wenn sie kein Thema ausgewaehlt"
-                                                " haben.\nBitte fuellen sie alle Felder aus.",
+            self.themeBox = QMessageBox.warning(self, "No Theme selected!",
+                                                "Sorry, but you must selected a Theme",
                                                 QMessageBox.StandardButton(QMessageBox.StandardButton.Ok),
                                                 QMessageBox.StandardButton(QMessageBox.StandardButton.Ok))
         else:
@@ -190,9 +188,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.del_menu()
                 self.del_all_entry()
             else:
-                self.themeBox = QMessageBox.warning(self, "Falsches Datum!",
-                                                    "Sorry, dies ist keine Zeitmaschine.\n"
-                                                    "Bitte geben sie das heutige oder ein zukuenftiges Datum ein",
+                self.themeBox = QMessageBox.warning(self, "Not a right Date!",
+                                                    "Sorry, but this is NOT a DeLorean!\n"
+                                                    "Please chose a Date in the Future or Today",
                                                     QMessageBox.StandardButton(QMessageBox.StandardButton.Ok),
                                                     QMessageBox.StandardButton(QMessageBox.StandardButton.Ok))
 
