@@ -86,16 +86,22 @@ class NotsList(QWidget, Ui_Form):
 
             new_item = self.date_table.item(row_counter, 1).text()
             checkbox = self.date_table.item(row_counter, 2).checkState()
+            new_item_1 = self.date_table.item(row_counter, 3).text()
+            checkbox_1 = self.date_table.item(row_counter, 4).checkState()
 
             row_counter += 1
-            if new_item == "":
+            if new_item == "" or new_item_1 == "":
                 pass
-            if len(new_item) == 1:
+            if len(new_item) == 1 or len(new_item_1) == 1:
                 new_item += "0"
+                new_item_1 += "0"
             if checkbox == Qt.CheckState.Checked:
                 new_item += "!"
+            if checkbox_1 == Qt.CheckState.Checked:
+                new_item_1 += "!"
 
             list_of_items.append(new_item.replace(",", ""))
+            list_of_items.append(new_item_1.replace(",", ""))
 
             for t in list_of_items:
                 if t == "":
@@ -103,65 +109,31 @@ class NotsList(QWidget, Ui_Form):
 
         new_list_of_items = [nots if "." not in nots else nots.replace(".", "") for nots in list_of_items]
 
-        for nobs in new_list_of_items:
-            if "!" not in nobs:
-                nobs = int(nobs)
-                new_list.append(nobs)
-            else:
-                nobs = int(nobs.replace("!", ""))
-                new_list.append(nobs * 2)
-                div_counter += 1
-
-        for n in self.avg_calculator_second():
-            new_list.append(n)
-
-        div_counter += len(new_list)
-        result = (((sum(new_list)) / 10) / div_counter)
-        last_result = round(result, 2)
-        self.lbl_durchschnitt_label.setText(str(last_result))
-
-    # second column
-
-    def avg_calculator_second(self):
-
-        row_counter = 0
-        div_counter = 0
-        list_of_items = []
-        new_list = []
-
-        for n in range(len(self.themes_note)):
-
-            new_item = self.date_table.item(row_counter, 3).text()
-            checkbox = self.date_table.item(row_counter, 4).checkState()
-
-            row_counter += 1
-            if new_item == "":
-                pass
-            if len(new_item) == 1:
-                new_item += "0"
-            if checkbox == Qt.CheckState.Checked:
-                new_item += "!"
-
-            list_of_items.append(new_item.replace(",", ""))
-
-            for t in list_of_items:
-                if t == "":
-                    list_of_items.remove(t)
-
-        new_list_of_items = [nots if "." not in nots else nots.replace(".", "") for nots in list_of_items]
+        if "" in new_list_of_items:
+            new_list_of_items.remove("")
 
         for nobs in new_list_of_items:
             if "!" not in nobs:
                 nobs = int(nobs)
                 new_list.append(nobs)
             else:
-                nobs = int(nobs.replace("!", ""))
-                new_list.append(nobs * 2)
-                div_counter += 1
+                try:
+                    nobs = int(nobs.replace("!", ""))
+                except ValueError:
+                    pass
+                else:
+                    new_list.append(nobs * 2)
+                    div_counter += 1
 
         div_counter += len(new_list)
 
-        return new_list
+        try:
+            result = (((sum(new_list)) / 10) / div_counter)
+        except ZeroDivisionError:
+            pass
+        else:
+            last_result = round(result, 2)
+            self.lbl_durchschnitt_label.setText(str(last_result))
 
     def make_note_csv(self):
 
