@@ -8,7 +8,7 @@
 <br>
 
 You can save a Date with Teacher and Theme.<br>
-Its 5 Days bevor your Date, the Color of the Date is changing to <code style="color : darkorange">Orange</code> <br>
+Its 5 Days bevor your Date, the Color of the Date is changing to <span style="color:red">Orange</span> <br>
 3 Days bevor your Date, it changing to Red.<br>
 Its One Day after Date the entry delete himself.<br>
 
@@ -22,7 +22,7 @@ In Directory "Lists" are 2 Csv-Files:  "teacher.csv, themes.csv;"
 With this Files, you can controll/change the Pullup-menus of
 the Buttons "Teacher" and "Theme"
 ```
-<p/>
+
 
 <br>
 <br>
