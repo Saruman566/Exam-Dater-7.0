@@ -1,7 +1,6 @@
-# A simple Exam Dater.
-![Exam-Dater1](https://user-images.githubusercontent.com/95621934/232017413-57b25772-bcb1-42c6-95d5-11be714fc1e8.jpg)
+# A simple Exam Dater
 
-
+<div style="text-align:center"/></div>
 
 ## Info:
 ```diff
@@ -22,11 +21,13 @@ $${\color{lightblue}Its \space One \space Day \space after \space Date \space th
 
 
 
-### Nots-list:
-![Nots-list1](https://user-images.githubusercontent.com/95621934/232017427-09e09549-1ec7-4884-815e-352fa4b6cc96.jpg)
 
+### Nots-list:
 
 In the upper Leftcorner is the **"Data"** menu / Nots-list
+
+![Nots-list1](https://user-images.githubusercontent.com/95621934/232119939-b98451ea-43b4-42cd-8582-d7f82ca610cb.jpg)
+
 
 ```diff
 Themes in the Nots-list controlled by "themes.csv".
