@@ -25,5 +25,8 @@ $${\color{lightblue}Its \space One \space Day \space after \space Date \space th
 In the upper Leftcorner is the **"Data"** menu / Nots-list
 
 ```diff
+Themes in the Nots-list controlled by "themes.csv".
+In the Table you can entry your Nots, single or Double.
 
+You can calculate grade point average and save all in xlx File.
 ```
