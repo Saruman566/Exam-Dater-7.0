@@ -8,7 +8,7 @@
 <br>
 
 <p align="left"> You can save a Date with Teacher and Theme.<br>
-Its 5 Days bevor your Date, the Color of the Date is changing to Orange.<br>
+  Its 5 Days bevor your Date, the Color of the Date is changing to <span style="color: #ff9c33">Orange.</span><br>
 3 Days bevor your Date, it changing to Red.<br>
 Its One Day after Date the entry delete himself.<br>
 
